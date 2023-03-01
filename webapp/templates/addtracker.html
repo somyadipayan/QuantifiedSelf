@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/70209db3cd.js" crossorigin="anonymous"></script>
+
+    <title>Home</title>
+</head>
+
+<body>
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div class="container_home">
+        <nav class="navbar_home">
+            <div class="navbar__left">
+                <a href="/">Current Trackers</a>
+                <a class="active_link">Add Trackers</a>
+            </div>
+            <div class="navbar__right">
+                <a href="#">{{user.email}}</a>
+                <a href="#">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            </div>
+        </nav>
+
+
+        <main>
+            <div class="main__container">
+                <!-- MAIN TITLE STARTS HERE -->
+
+                <div class="main__title" style="margin-top: 10px;">
+                    <div class="main__greeting">
+                        <h1>Add a Tracker</h1>
+                    </div>
+                </div>
+
+
+                <div class="grid">
+                    <form method="post">
+                        <h3>Tracker Information</h3>
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+
+                        {% for category, message in messages %}
+
+                        {% if category == 'error' %}
+                        <div align="center">
+                            <div class="error" role="alert">
+                                {{ message }}
+                            </div>
+
+                        </div>
+                        {% else %}
+                        <div align="center">
+                            <div class="success" role="alert">
+                                {{ message }}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% endfor %}
+
+                        {% endif %}
+                        {% endwith %}
+                        <label for="name">Name</label>
+                        <input type="name" placeholder="Give a name to your Tracker" name="name" required>
+                        <label for="description">Description</label>
+                        <input type="description" placeholder="Describe your Tracker" name="description">
+                        <label for="type">Type</label>
+                        <select name="Action" id="action">
+                            <option value="numerical">Numerical</option>
+                            <option value="multiple_choice">Multiple Choice</option>
+                        </select>
+                        <label for="settings">Settings</label>
+                        <input type="settings" placeholder="Only for Multiple Choice Type" name="settings"><br><br>
+                        <input type="submit" value="Submit" class="bttn glow-bttn">
+                        </p>
+                    </form>
+
+                    <!-- End of Error and Success Message-->
+
+                    <div class="grid__right">
+                        <div class="grid__right__title">
+                            <div style="width: 100%;">
+                                <h1>Your Current Trackers</h1>
+                                <p>Check or Edit your Trackers</p>
+                            </div>
+                        </div>
+                        {% if tracker_count == 0 %}
+                        <div class="message" role="alert">
+                            Looks like, there is nothing here!
+                        </div>
+                        {% else %}
+                        <div class="trackers__cards__long">
+                            {% for i in tracker %}
+                            <a href="/trackerinfo/{{i['id']}}" class="tracker">
+                                <h1>{{i["name"]}}</h1>
+                                <p>{{i["description"]}}</p>
+                            </a>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+        </main>
+
+
+        <div id="sidebar">
+            <div class="sidebar__title">
+                <div class="sidebar__img">
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+                </div>
+                <i onclick="closeSidebar()" class="fa fa-times" id="sidebarIcon" aria-hidden="true"></i>
+            </div>
+
+            <div class="sidebar__menu">
+                <div class="sidebar__link">
+                    <i class="fa fa-home"></i>
+                    <a href="/">Dashboard</a>
+                </div>
+                <div class="sidebar__logout">
+                    <i class="fa fa-power-off"></i>
+                    <a href="/">Log out</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
